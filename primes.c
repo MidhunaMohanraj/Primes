@@ -5,11 +5,6 @@
 #include <pthread.h>
 #include "primes.h"//implementing
 
-typedef struct { //example structure
-    int example;
-    int e_g;
-} Example_Structure;
-
 pthread_mutex_t lock;
 int counter = 2;
 int max_number;
@@ -76,11 +71,12 @@ void primes_st(unsigned int max, unsigned int verb){
 void* prime_checker_routine(void* arg)
     {   
         int verb = *((int*)arg);
+        int tested_number;
 
         while(1){
             // get the current number
             pthread_mutex_lock(&lock);
-            int tested_number = counter;
+            tested_number = counter;
             counter++;
             pthread_mutex_unlock(&lock);
             if (tested_number > max_number){
@@ -102,7 +98,7 @@ void* prime_checker_routine(void* arg)
             }
             if (isPrime == 1){
                 if (verb != 0){
-                    printf("%d is a prime\n", tested_number);
+                    printf("%d\n", tested_number);
                 }
             }
         }

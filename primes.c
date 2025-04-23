@@ -1,10 +1,12 @@
 // testing if this shows
 // help for the isprime function https://www.programiz.com/c-programming/examples/prime-number
+// help for the mutex https://www.geeksforgeeks.org/mutex-lock-for-linux-thread-synchronization/
 #include <stdio.h>
 #include <math.h>
 #include <pthread.h>
 #include "primes.h"//implementing
 
+// global variables
 pthread_mutex_t lock;
 int counter = 2;
 int max_number;
@@ -73,6 +75,7 @@ void* prime_checker_routine(void* arg)
         int verb = *((int*)arg);
         int tested_number;
 
+        // run the while loop until all numbers are checked
         while(1){
             // get the current number
             pthread_mutex_lock(&lock);
@@ -82,6 +85,7 @@ void* prime_checker_routine(void* arg)
             if (tested_number > max_number){
                 break;
             }
+            // flag to check if number is prime
             int isPrime = 1;
             
             // inner loop: test every number up to half to see if there are
@@ -96,6 +100,7 @@ void* prime_checker_routine(void* arg)
                 } 
                     
             }
+            // if isPrime flag is still 1, then the numnber is prime
             if (isPrime == 1){
                 if (verb != 0){
                     printf("%d\n", tested_number);
